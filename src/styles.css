@@ -1,3 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+:root {
+  /* Paleta de cores do Agora Pronto */
+  --cor-laranja-sertao: #E76F3C;
+  --cor-terracota: #C55234;
+  --cor-verde-oliva-claro: #A7B083;
+  --cor-verde-oliva-escuro: #556B42;
+  --cor-off-white: #F7F2E7;
+
+  /* Cores de apoio */
+  --cor-texto: #34372D;
+  --cor-fundo: #F7F2E7;
+  --cor-superficie: #FFFFFF;
+  --cor-borda: #E5DDCE;
+
+  /* Tipografia */
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
