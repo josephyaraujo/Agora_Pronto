@@ -1,3 +1,11 @@
+<p align="center">
+  <img
+    src="docs/imgs/banner_agora_pronto.png"
+    alt="Agora Pronto"
+    width="auto"
+  />
+</p>
+
 # 🌵 Agora Pronto
 
 **Agora Pronto** é um aplicativo de lista de tarefas desenvolvido para ajudar na organização da rotina, no acompanhamento de atividades e na conclusão de tarefas de forma simples e prática.
