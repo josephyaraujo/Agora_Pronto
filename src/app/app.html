@@ -1,9 +1,11 @@
-
 <div class="min-h-screen">
   <!-- Cabeçalho -->
   <header class="border-b border-(--cor-borda) bg-white">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-      <a href="/" class="text-2xl font-bold text-(--cor-verde-oliva-escuro)">
+      <a
+        href="/"
+        class="text-2xl font-bold text-(--cor-verde-oliva-escuro)"
+      >
         Agora <span class="text-(--cor-laranja-sertao)">Pronto</span>
       </a>
 
@@ -15,53 +17,404 @@
 
   <!-- Conteúdo principal -->
   <main class="mx-auto max-w-6xl px-6 py-12">
+
+    <!-- Apresentação -->
     <section class="mb-10">
-      <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)">
+      <p
+        class="mb-3 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)"
+      >
         Seu espaço de organização
       </p>
 
-      <h1 class="mb-4 text-4xl font-bold text-(--cor-verde-oliva-escuro)">
+      <h1
+        class="mb-4 text-4xl font-bold text-(--cor-verde-oliva-escuro)"
+      >
         Agora é hora de colocar tudo em ordem.
       </h1>
 
       <p class="max-w-2xl text-lg text-(--cor-texto)">
-        Organize suas tarefas, acompanhe seu progresso e resolva uma coisa de cada vez.
+        Organize suas tarefas, acompanhe seu progresso e resolva uma coisa
+        de cada vez.
       </p>
     </section>
 
     <!-- Área de tarefas -->
-    <section class="rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm">
-      <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <section
+      class="rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm"
+    >
+      <!-- Cabeçalho da seção -->
+      <div
+        class="mb-6 flex flex-wrap items-center justify-between gap-4"
+      >
         <div>
-          <h2 class="text-2xl font-bold text-(--cor-verde-oliva-escuro)">
+          <h2
+            class="text-2xl font-bold text-(--cor-verde-oliva-escuro)"
+          >
             Minhas tarefas
           </h2>
 
           <p class="mt-2 text-sm text-gray-500">
-            Seu próximo passo começa aqui.
+            {{ tarefas.length }} tarefa(s) cadastrada(s).
           </p>
         </div>
 
         <button
           type="button"
-          class="rounded-xl bg-(--cor-laranja-sertao) px-5 py-3 font-semibold text-white transition hover:bg-(--cor-terracota)"
+          (click)="novaTarefa()"
+          title="Nova tarefa"
+          aria-label="Nova tarefa"
+          class="flex h-10 w-10 items-center justify-center rounded-lg bg-(--cor-laranja-sertao) text-white transition hover:bg-(--cor-terracota)"
         >
-          + Nova tarefa
+          <i class="pi pi-plus" aria-hidden="true"></i>
         </button>
       </div>
 
-      <div class="rounded-xl bg-(--cor-fundo) px-6 py-10 text-center">
-        <p class="mb-2 text-lg font-semibold text-(--cor-verde-oliva-escuro)">
-          Tudo pronto para começar?
-        </p>
+      <!-- Lista de tarefas -->
+      @if (tarefas.length > 0) {
+        <div class="space-y-4">
 
-        <p class="text-sm text-(--cor-texto)">
-          Suas tarefas aparecerão aqui quando você começar a cadastrá-las.
-        </p>
-      </div>
+          @for (tarefa of tarefas; track tarefa.id) {
+            <article
+              class="rounded-xl border border-(--cor-borda) bg-(--cor-fundo) p-5 transition hover:shadow-sm"
+            >
+              <div
+                class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+              >
+
+                <!-- Informações -->
+                <div class="min-w-0 flex-1">
+                  <div class="mb-2 flex flex-wrap items-center gap-2">
+                    <h3
+                      class="text-lg font-bold text-(--cor-verde-oliva-escuro)"
+                      [class.line-through]="tarefa.concluida"
+                      [class.opacity-60]="tarefa.concluida"
+                    >
+                      {{ tarefa.titulo }}
+                    </h3>
+
+                    <span
+                      class="rounded-full px-3 py-1 text-xs font-semibold"
+                      [class.bg-red-100]="tarefa.prioridade === 'alta'"
+                      [class.text-red-700]="tarefa.prioridade === 'alta'"
+                      [class.bg-yellow-100]="tarefa.prioridade === 'media'"
+                      [class.text-yellow-700]="tarefa.prioridade === 'media'"
+                      [class.bg-green-100]="tarefa.prioridade === 'baixa'"
+                      [class.text-green-700]="tarefa.prioridade === 'baixa'"
+                    >
+                      {{ tarefa.prioridade }}
+                    </span>
+                  </div>
+
+                  <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+                    <span>
+                      Prazo:
+                      {{ tarefa.prazo | date: 'dd/MM/yyyy' }}
+                    </span>
+
+                    <span>
+                      Status:
+                      {{ tarefa.concluida ? 'Concluída' : 'Pendente' }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Ações -->
+                <div class="flex items-center gap-2">
+
+                  <!-- Detalhes -->
+                  <button
+                    type="button"
+                    (click)="selecionarTarefa(tarefa)"
+                    title="Ver detalhes"
+                    aria-label="Ver detalhes"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-(--cor-laranja-sertao) transition hover:bg-orange-200"
+                  >
+                    <i class="pi pi-search" aria-hidden="true"></i>
+                  </button>
+
+                  <!-- Editar -->
+                  <button
+                    type="button"
+                    (click)="editarTarefa(tarefa)"
+                    title="Editar tarefa"
+                    aria-label="Editar tarefa"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-(--cor-laranja-sertao) transition hover:bg-orange-200"
+                  >
+                    <i class="pi pi-pencil" aria-hidden="true"></i>
+                  </button>
+
+                  <!-- Concluir ou reabrir -->
+                  <button
+                    type="button"
+                    (click)="alternarConclusao(tarefa)"
+                    [title]="tarefa.concluida ? 'Reabrir tarefa' : 'Concluir tarefa'"
+                    [attr.aria-label]="tarefa.concluida ? 'Reabrir tarefa' : 'Concluir tarefa'"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-(--cor-verde-oliva-escuro) transition hover:bg-(--cor-verde-oliva-claro)"
+                  >
+                    <i
+                      [class.pi-check]="!tarefa.concluida"
+                      [class.pi-refresh]="tarefa.concluida"
+                      class="pi"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  <!-- Remover -->
+                  <button
+                    type="button"
+                    (click)="removerTarefa(tarefa)"
+                    title="Remover tarefa"
+                    aria-label="Remover tarefa"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-red-600 transition hover:bg-red-300"
+                  >
+                    <i class="pi pi-trash" aria-hidden="true"></i>
+                  </button>
+
+                </div>
+              </div>
+            </article>
+          }
+
+        </div>
+      } @else {
+
+        <!-- Estado vazio -->
+        <div
+          class="rounded-xl bg-(--cor-fundo) px-6 py-10 text-center"
+        >
+          <p
+            class="mb-2 text-lg font-semibold text-(--cor-verde-oliva-escuro)"
+          >
+            Tudo pronto para começar?
+          </p>
+
+          <p class="text-sm text-(--cor-texto)">
+            Suas tarefas aparecerão aqui quando você começar a cadastrá-las.
+          </p>
+        </div>
+      }
+
     </section>
+
+    <!-- Modal de detalhes e edição -->
+    <p-dialog
+      [(visible)]="modalVisivel"
+      [modal]="true"
+      [style]="{ width: '650px', maxWidth: '95vw' }"
+      [draggable]="false"
+      [resizable]="false"
+      (onHide)="fecharModal()"
+    >
+
+      <!-- Formulário de cadastro e edição -->
+      @if (tarefaEmEdicao) {
+        <section
+          class="mt-8 rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm"
+        >
+          <div class="mb-6">
+            <p
+              class="mb-2 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)"
+            >
+              {{ tarefaEmEdicao.id === 0 ? 'Nova tarefa' : 'Editar tarefa' }}
+            </p>
+
+            <h2 class="text-2xl font-bold text-(--cor-verde-oliva-escuro)">
+              {{ tarefaEmEdicao.id === 0 ? 'Organize seu próximo passo' : 'Atualize sua tarefa' }}
+            </h2>
+          </div>
+
+          <form (ngSubmit)="salvarTarefa()" #formTarefa="ngForm">
+            <div class="grid gap-5 md:grid-cols-2">
+
+              <!-- Título -->
+              <div class="md:col-span-2">
+                <label
+                  for="titulo"
+                  class="mb-2 block text-sm font-semibold text-(--cor-texto)"
+                >
+                  Título
+                </label>
+
+                <input
+                  id="titulo"
+                  name="titulo"
+                  type="text"
+                  [(ngModel)]="tarefaEmEdicao.titulo"
+                  required
+                  placeholder="Ex.: Estudar Angular"
+                  class="w-full rounded-xl border border-(--cor-borda) bg-white px-4 py-3 text-(--cor-texto) outline-none focus:border-(--cor-laranja-sertao)"
+                />
+              </div>
+
+              <!-- Descrição -->
+              <div class="md:col-span-2">
+                <label
+                  for="descricao"
+                  class="mb-2 block text-sm font-semibold text-(--cor-texto)"
+                >
+                  Descrição
+                </label>
+
+                <textarea
+                  id="descricao"
+                  name="descricao"
+                  [(ngModel)]="tarefaEmEdicao.descricao"
+                  required
+                  rows="4"
+                  placeholder="Descreva o que precisa ser feito..."
+                  class="w-full rounded-xl border border-(--cor-borda) bg-white px-4 py-3 text-(--cor-texto) outline-none focus:border-(--cor-laranja-sertao)"
+                ></textarea>
+              </div>
+
+              <!-- Prioridade -->
+              <div>
+                <label
+                  for="prioridade"
+                  class="mb-2 block text-sm font-semibold text-(--cor-texto)"
+                >
+                  Prioridade
+                </label>
+
+                <select
+                  id="prioridade"
+                  name="prioridade"
+                  [(ngModel)]="tarefaEmEdicao.prioridade"
+                  required
+                  class="w-full rounded-xl border border-(--cor-borda) bg-white px-4 py-3 text-(--cor-texto) outline-none focus:border-(--cor-laranja-sertao)"
+                >
+                  <option value="baixa">Baixa</option>
+                  <option value="media">Média</option>
+                  <option value="alta">Alta</option>
+                </select>
+              </div>
+
+              <!-- Prazo -->
+              <div>
+                <label
+                  for="prazo"
+                  class="mb-2 block text-sm font-semibold text-(--cor-texto)"
+                >
+                  Prazo
+                </label>
+
+                <input
+                  id="prazo"
+                  name="prazo"
+                  type="date"
+                  [ngModel]="formatarData(tarefaEmEdicao.prazo)"
+                  (ngModelChange)="atualizarPrazo($event)"
+                  required
+                  class="w-full rounded-xl border border-(--cor-borda) bg-white px-4 py-3 text-(--cor-texto) outline-none focus:border-(--cor-laranja-sertao)"
+                />
+              </div>
+
+              <!-- Situação -->
+              <div class="md:col-span-2">
+                <label class="flex items-center gap-3 text-sm font-semibold text-(--cor-texto)">
+                  <input
+                    type="checkbox"
+                    name="concluida"
+                    [(ngModel)]="tarefaEmEdicao.concluida"
+                    class="h-5 w-5 accent-(--cor-verde-oliva-escuro)"
+                  />
+
+                  Marcar tarefa como concluída
+                </label>
+              </div>
+
+            </div>
+
+            <!-- Botões -->
+            <div class="mt-8 flex flex-wrap justify-end gap-3">
+              <button
+                type="button"
+                (click)="cancelarEdicao()"
+                class="rounded-xl border border-(--cor-borda) bg-white px-5 py-3 font-semibold text-(--cor-texto) transition hover:bg-gray-50"
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="submit"
+                [disabled]="formTarefa.invalid"
+                class="rounded-xl bg-(--cor-laranja-sertao) px-5 py-3 font-semibold text-white transition hover:bg-(--cor-terracota) disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {{ tarefaEmEdicao.id === 0 ? 'Cadastrar tarefa' : 'Salvar alterações' }}
+              </button>
+            </div>
+          </form>
+        </section>
+      }
+
+      <!-- Detalhes da tarefa -->
+      @if (tarefaSelecionada) {
+        <section
+          class="mt-8 rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm"
+        >
+          <div class="mb-6 flex items-center justify-between">
+            <div>
+              <p
+                class="mb-2 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)"
+              >
+                Detalhes
+              </p>
+
+              <h2
+                class="text-2xl font-bold text-(--cor-verde-oliva-escuro)"
+              >
+                {{ tarefaSelecionada.titulo }}
+              </h2>
+            </div>
+          </div>
+
+          <div class="grid gap-5 md:grid-cols-2">
+
+            <div>
+              <p class="text-sm font-semibold text-gray-500">
+                Descrição
+              </p>
+
+              <p class="mt-1 text-(--cor-texto)">
+                {{ tarefaSelecionada.descricao }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-500">
+                Prioridade
+              </p>
+
+              <p class="mt-1 text-(--cor-texto)">
+                {{ tarefaSelecionada.prioridade }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-500">
+                Prazo
+              </p>
+
+              <p class="mt-1 text-(--cor-texto)">
+                {{ tarefaSelecionada.prazo | date: 'dd/MM/yyyy' }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-500">
+                Situação
+              </p>
+
+              <p class="mt-1 text-(--cor-texto)">
+                {{ tarefaSelecionada.concluida ? 'Concluída' : 'Pendente' }}
+              </p>
+            </div>
+
+          </div>
+        </section>
+      }
+    </p-dialog>
+    
   </main>
 
-  <!-- Área de navegação -->
   <router-outlet />
 </div>

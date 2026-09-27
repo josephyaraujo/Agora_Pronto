@@ -1,5 +1,6 @@
 
 @import 'tailwindcss';
+@import 'primeicons/primeicons.css';
 
 :root {
   /* Paleta de cores do Agora Pronto */
@@ -35,4 +36,59 @@ body {
   min-height: 100vh;
   background-color: var(--cor-fundo);
   color: var(--cor-texto);
+}
+
+/* Fundo atrás do modal */
+.p-dialog-mask {
+  background: rgba(52, 55, 45, 0.25) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+/* Estrutura principal do modal */
+.p-dialog {
+  background: #FFFFFF !important;
+  border: 1px solid var(--cor-borda) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 60px rgba(52, 55, 45, 0.12) !important;
+  overflow: hidden;
+}
+
+/* Cabeçalho */
+.p-dialog-header {
+  background: #FFFFFF !important;
+  border: none !important;
+  padding: 8px 8px 8px !important;
+}
+
+/* Conteúdo */
+.p-dialog-content {
+  background: #FFFFFF !important;
+  border: none !important;
+  padding: 8px 8px 8px !important;
+}
+
+/* Barra de rolagem */
+.p-dialog-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cor-verde-oliva-claro) #F7F2E7;
+}
+
+.p-dialog-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.p-dialog-content::-webkit-scrollbar-track {
+  background: #F7F2E7;
+  border-radius: 10px;
+}
+
+.p-dialog-content::-webkit-scrollbar-thumb {
+  background: var(--cor-verde-oliva-claro);
+  border-radius: 10px;
+  border: 2px solid #F7F2E7;
+}
+
+.p-dialog-content::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-verde-oliva-escuro);
 }
