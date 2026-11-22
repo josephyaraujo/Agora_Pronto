@@ -1,0 +1,28 @@
+{
+  "tarefas": [
+    {
+      "id": 1,
+      "titulo": "Estudar Angular",
+      "descricao": "Revisar componentes, diretivas e data binding.",
+      "prioridade": "alta",
+      "prazo": "2026-10-01",
+      "concluida": false
+    },
+    {
+      "id": 2,
+      "titulo": "Fazer atividade de AIR",
+      "descricao": "Implementar o CRUD do projeto Agora Pronto.",
+      "prioridade": "alta",
+      "prazo": "2026-10-05",
+      "concluida": true
+    },
+    {
+      "id": 3,
+      "titulo": "Revisar identidade visual",
+      "descricao": "Conferir cores, tipografia e espaçamentos da aplicação.",
+      "prioridade": "media",
+      "prazo": "2026-10-10",
+      "concluida": true
+    }
+  ]
+}

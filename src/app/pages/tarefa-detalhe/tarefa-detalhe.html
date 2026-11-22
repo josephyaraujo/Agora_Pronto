@@ -1,0 +1,67 @@
+
+<main class="mx-auto max-w-4xl px-6 py-12">
+  <a
+    routerLink="/tarefas"
+    class="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-(--cor-terracota) hover:underline"
+  >
+    <i class="pi pi-arrow-left"></i>
+    Voltar para minhas tarefas
+  </a>
+
+  @if (carregando()) {
+    <p class="py-10 text-center text-(--cor-texto)">
+      Carregando detalhes...
+    </p>
+  } @else if (erro()) {
+    <div class="rounded-2xl border border-(--cor-borda) bg-white p-8">
+      <p class="text-red-700">{{ erro() }}</p>
+    </div>
+  } @else if (tarefa(); as item) {
+    <section class="rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)">
+        Detalhes da tarefa
+      </p>
+
+      <h1 class="mb-8 text-3xl font-bold text-(--cor-verde-oliva-escuro)">
+        {{ item.titulo }}
+      </h1>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="md:col-span-2">
+          <p class="text-sm font-semibold text-gray-500">Descrição</p>
+          <p class="mt-2 text-(--cor-texto)">
+            {{ item.descricao }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Prioridade</p>
+          <p class="mt-2 text-(--cor-texto)">
+            {{ item.prioridade }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Prazo</p>
+          <p class="mt-2 text-(--cor-texto)">
+            {{ item.prazo | date:'dd/MM/yyyy' }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Situação</p>
+          <p class="mt-2 text-(--cor-texto)">
+            {{ item.concluida ? 'Concluída' : 'Pendente' }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Identificador</p>
+          <p class="mt-2 text-(--cor-texto)">
+            #{{ item.id }}
+          </p>
+        </div>
+      </div>
+    </section>
+  }
+</main>
