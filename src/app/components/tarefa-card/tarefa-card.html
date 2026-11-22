@@ -1,0 +1,76 @@
+<article class="rounded-2xl border border-[#e8e3d7] bg-[#fffdf8] p-5 shadow-sm transition hover:shadow-md">
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0">
+      <h3
+        class="text-lg font-semibold text-[#41452f]"
+        [class.line-through]="tarefa().concluida"
+        [class.opacity-60]="tarefa().concluida"
+      >
+        {{ tarefa().titulo }}
+      </h3>
+
+      <p class="mt-2 text-sm text-[#777765]">
+        {{ tarefa().descricao }}
+      </p>
+    </div>
+
+    <span
+      class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
+      [class.bg-red-100]="tarefa().prioridade === 'alta'"
+      [class.text-red-700]="tarefa().prioridade === 'alta'"
+      [class.bg-yellow-100]="tarefa().prioridade === 'media'"
+      [class.text-yellow-700]="tarefa().prioridade === 'media'"
+      [class.bg-green-100]="tarefa().prioridade === 'baixa'"
+      [class.text-green-700]="tarefa().prioridade === 'baixa'"
+    >
+      {{ tarefa().prioridade }}
+    </span>
+  </div>
+
+  <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+    <span class="text-sm text-[#777765]">
+      Prazo: {{ tarefa().prazo | date:'dd/MM/yyyy' }}
+    </span>
+
+    <span class="text-sm font-medium"
+      [class.text-green-700]="tarefa().concluida"
+      [class.text-orange-700]="!tarefa().concluida"
+    >
+      {{ tarefa().concluida ? 'Concluída' : 'Pendente' }}
+    </span>
+  </div>
+
+  <div class="mt-5 flex flex-wrap gap-2">
+    <button
+      type="button"
+      class="rounded-lg border border-[#d8d5c8] px-3 py-2 text-sm text-[#555843] hover:bg-[#f4f1e8]"
+      (click)="visualizar.emit(tarefa())"
+    >
+      Detalhes
+    </button>
+
+    <button
+      type="button"
+      class="rounded-lg bg-[#e9a15e] px-3 py-2 text-sm font-medium text-white hover:bg-[#d98c49]"
+      (click)="editar.emit(tarefa())"
+    >
+      Editar
+    </button>
+
+    <button
+      type="button"
+      class="rounded-lg border border-[#e7c5bb] px-3 py-2 text-sm text-[#a34f3e] hover:bg-[#fbefeb]"
+      (click)="excluir.emit(tarefa())"
+    >
+      Excluir
+    </button>
+
+    <button
+      type="button"
+      class="rounded-lg border border-[#c9d3b8] px-3 py-2 text-sm text-[#586b43] hover:bg-[#edf1e6]"
+      (click)="alternarConclusao.emit(tarefa())"
+    >
+      {{ tarefa().concluida ? 'Reabrir' : 'Concluir' }}
+    </button>
+  </div>
+</article>

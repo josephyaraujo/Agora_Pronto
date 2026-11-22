@@ -3,6 +3,6 @@ export interface Tarefa {
   titulo: string;
   descricao: string;
   prioridade: 'baixa' | 'media' | 'alta';
-  prazo: Date;
+  prazo: string;
   concluida: boolean;
 }

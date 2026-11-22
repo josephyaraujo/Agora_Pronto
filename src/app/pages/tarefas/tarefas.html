@@ -1,0 +1,79 @@
+<main class="mx-auto max-w-6xl px-6 py-12">
+  <section class="mb-10">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)">
+      Seu espaço de organização
+    </p>
+
+    <h1 class="mb-4 text-4xl font-bold text-(--cor-verde-oliva-escuro)">
+      Agora é hora de colocar tudo em ordem.
+    </h1>
+
+    <p class="max-w-2xl text-lg text-(--cor-texto)">
+      Organize suas tarefas, acompanhe seu progresso e resolva uma coisa
+      de cada vez.
+    </p>
+  </section>
+
+  <section class="rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h2 class="text-2xl font-bold text-(--cor-verde-oliva-escuro)">
+          Minhas tarefas
+        </h2>
+
+        <p class="mt-2 text-sm text-gray-500">
+          {{ tarefaService.tarefas().length }} tarefa(s) cadastrada(s).
+        </p>
+      </div>
+
+      <button
+        type="button"
+        (click)="novaTarefa()"
+        title="Nova tarefa"
+        aria-label="Nova tarefa"
+        class="flex h-10 w-10 items-center justify-center rounded-lg bg-(--cor-laranja-sertao) text-white transition hover:bg-(--cor-terracota)"
+      >
+        <i class="pi pi-plus" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    @if (tarefaService.carregando()) {
+      <p class="py-10 text-center text-(--cor-texto)">
+        Carregando tarefas...
+      </p>
+    } @else if (tarefaService.erro()) {
+      <div class="rounded-xl bg-red-50 p-5 text-red-700">
+        {{ tarefaService.erro() }}
+        <button
+          type="button"
+          class="ml-2 underline"
+          (click)="tarefaService.carregarTarefas()"
+        >
+          Tentar novamente
+        </button>
+      </div>
+    } @else if (tarefaService.tarefas().length > 0) {
+      <div class="grid gap-4 md:grid-cols-2">
+        @for (tarefa of tarefaService.tarefas(); track tarefa.id) {
+          <app-tarefa-card
+            [tarefa]="tarefa"
+            (visualizar)="visualizarTarefa($event)"
+            (editar)="editarTarefa($event)"
+            (excluir)="excluirTarefa($event)"
+            (alternarConclusao)="alternarConclusao($event)"
+          />
+        }
+      </div>
+    } @else {
+      <div class="rounded-xl bg-(--cor-fundo) px-6 py-10 text-center">
+        <p class="mb-2 text-lg font-semibold text-(--cor-verde-oliva-escuro)">
+          Tudo pronto para começar?
+        </p>
+
+        <p class="text-sm text-(--cor-texto)">
+          Suas tarefas aparecerão aqui quando você começar a cadastrá-las.
+        </p>
+      </div>
+    }
+  </section>
+</main>

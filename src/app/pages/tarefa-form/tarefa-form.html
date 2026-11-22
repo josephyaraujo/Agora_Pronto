@@ -1,0 +1,130 @@
+<main class="mx-auto max-w-3xl px-6 py-12">
+  <a
+    routerLink="/tarefas"
+    class="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-(--cor-terracota) hover:underline"
+  >
+    <i class="pi pi-arrow-left"></i>
+    Voltar para minhas tarefas
+  </a>
+
+  <section class="rounded-2xl border border-(--cor-borda) bg-white p-8 shadow-sm">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-(--cor-terracota)">
+      Agora Pronto
+    </p>
+
+    <h1 class="mb-2 text-3xl font-bold text-(--cor-verde-oliva-escuro)">
+      {{ editando() ? 'Editar tarefa' : 'Nova tarefa' }}
+    </h1>
+
+    <p class="mb-8 text-(--cor-texto)">
+      {{ editando()
+        ? 'Atualize as informações da sua tarefa.'
+        : 'Preencha os dados para organizar sua próxima atividade.' }}
+    </p>
+
+    @if (carregando() && editando()) {
+      <p class="py-6 text-center">Carregando tarefa...</p>
+    } @else {
+      <form (submit)="salvar($event)" class="space-y-6">
+        <div>
+          <label class="mb-2 block font-semibold text-(--cor-verde-oliva-escuro)">
+            Título
+          </label>
+
+          <input
+            type="text"
+            [formField]="tarefaForm.titulo"
+            placeholder="Ex.: Estudar Angular"
+            class="w-full rounded-lg border border-(--cor-borda) p-3 outline-none focus:border-(--cor-terracota)"
+          />
+
+          @if (tarefaForm.titulo().touched() && tarefaForm.titulo().invalid()) {
+            @for (error of tarefaForm.titulo().errors(); track error) {
+              <p class="mt-1 text-sm text-red-600">{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <div>
+          <label class="mb-2 block font-semibold text-(--cor-verde-oliva-escuro)">
+            Descrição
+          </label>
+
+          <textarea
+            rows="4"
+            [formField]="tarefaForm.descricao"
+            placeholder="Descreva sua tarefa..."
+            class="w-full rounded-lg border border-(--cor-borda) p-3 outline-none focus:border-(--cor-terracota)"
+          ></textarea>
+
+          @if (tarefaForm.descricao().touched() && tarefaForm.descricao().invalid()) {
+            @for (error of tarefaForm.descricao().errors(); track error) {
+              <p class="mt-1 text-sm text-red-600">{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <label class="mb-2 block font-semibold text-(--cor-verde-oliva-escuro)">
+              Prioridade
+            </label>
+
+            <select
+              [formField]="tarefaForm.prioridade"
+              class="w-full rounded-lg border border-(--cor-borda) bg-white p-3"
+            >
+              <option value="baixa">Baixa</option>
+              <option value="media">Média</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="mb-2 block font-semibold text-(--cor-verde-oliva-escuro)">
+              Prazo
+            </label>
+
+            <input
+              type="date"
+              [formField]="tarefaForm.prazo"
+              class="w-full rounded-lg border border-(--cor-borda) p-3"
+            />
+          </div>
+        </div>
+
+        <label class="flex items-center gap-3 text-(--cor-texto)">
+          <input
+            type="checkbox"
+            [formField]="tarefaForm.concluida"
+            class="h-4 w-4 accent-(--cor-terracota)"
+          />
+          Tarefa concluída
+        </label>
+
+        @if (erro()) {
+          <p class="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+            {{ erro() }}
+          </p>
+        }
+
+        <div class="flex flex-wrap justify-end gap-3 border-t border-(--cor-borda) pt-6">
+          <a
+            routerLink="/tarefas"
+            class="rounded-lg border border-(--cor-borda) px-5 py-3 text-sm font-semibold text-(--cor-texto)"
+          >
+            Cancelar
+          </a>
+
+          <button
+            type="submit"
+            [disabled]="carregando()"
+            class="rounded-lg bg-(--cor-laranja-sertao) px-6 py-3 text-sm font-semibold text-white transition hover:bg-(--cor-terracota) disabled:opacity-50"
+          >
+            {{ carregando() ? 'Salvando...' : 'Salvar tarefa' }}
+          </button>
+        </div>
+      </form>
+    }
+  </section>
+</main>
