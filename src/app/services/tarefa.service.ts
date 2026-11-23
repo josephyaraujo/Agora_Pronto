@@ -10,12 +10,11 @@ import { Tarefa } from '../models/tarefa';
 })
 export class TarefaService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:3000/tarefas';
-
-  // Estado compartilhado da aplicação
+  private readonly apiUrl = '/tarefas';
   readonly tarefas = signal<Tarefa[]>([]);
   readonly carregando = signal(false);
   readonly erro = signal<string | null>(null);
+
 
   async carregarTarefas(): Promise<void> {
     this.carregando.set(true);

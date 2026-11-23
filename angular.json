@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "f8951889-1cf7-405a-a9b7-deba95856055"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -50,8 +51,12 @@
           },
           "defaultConfiguration": "production"
         },
+        
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "agora-pronto:build:production"
@@ -62,6 +67,7 @@
           },
           "defaultConfiguration": "development"
         },
+        
         "test": {
           "builder": "@angular/build:unit-test"
         }
